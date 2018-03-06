@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+
+	<import resource="mq-conf.xml" />
+
+	<bean class="com.rabbitmq.client.ConnectionFactory" id="customConnectionFactory">
+		<property name="host" value="localhost" />
+		<property name="port" value="5672" />
+		<property name="username" value="guest" />
+		<property name="password" value="guest" />
+	</bean>
+
+	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
+		xmlns:tns="http://aerolineas-latinoamericanas/contract/messages">
+		<camel:route id="taller-soa-eai-eai">
+			<camel:from
+				uri="rabbitmq://localhost:5672/aircraft-suscription?connectionFactory=#customConnectionFactory&amp;autoDelete=false&amp;queue=AIRCRAFT.LINE.BRIDGE.TOPIC&amp;routingKey=soa-eai" />
+			<camel:log message="Active JBossFuse" />
+			<camel:multicast>
+				<camel:choice>
+					<camel:when>
+						<!-- BLIZARD FLIGHTS.GUARD.REQUEST.QUEUE -->
+						<camel:xpath></camel:xpath>
+						<camel:to uri="xslt:xslt/air-shopping.xls" />
+						<camel:to
+							uri="file:/opt/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
+						<camel:log message="File Blizard Generated" />
+					</camel:when>
+				</camel:choice>
+			</camel:multicast>
+		</camel:route>
+	</camel:camelContext>
+</beans>
