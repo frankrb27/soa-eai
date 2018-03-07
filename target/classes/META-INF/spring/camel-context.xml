@@ -23,19 +23,20 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
 			<camel:log message="[JBossFuse] ---------------> Active JBossFuse" />
 			<camel:multicast>
+
+				<!--camel:to
+					uri="file:/home/frank/target-system/flight-guards?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" / -->
+				<!-- FLIGHT GUARDS -->
 				<camel:choice>
-					<camel:when>
-						<!-- FLIGHT GUARDS -->
+					<camel:when>						
 						<camel:xpath>count(//tns:aircratline-message/tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0</camel:xpath>
 						<camel:split>
 							<camel:xpath>/tns:aircratline-message/tns:flight-leg[tns:domain-events-info/tns:alert-on-air]</camel:xpath>
 							<camel:to uri="xslt:transformation/alert-on-air.xsl" />
-							<camel:log message="[JBossFuse] ---------------> On Air Alert" />
-							<!-- FLIGHTS.GUARD.REQUEST.QUEUE -->
-							<camel:to
-								uri="file:/home/frank/target-system/flight-guards?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
+							<camel:log message="[JBossFuse][FLIGHT-GUARDS] ---------------> On Air Alert" />
+							<camel:to uri="activemq:queue:FLIGHTS.GUARD.REQUEST.QUEUE" />
 							<camel:log
-								message="[JBossFuse] ---------------> Send message to Flight Guards QUEUE" />
+								message="[JBossFuse][FLIGHT-GUARDS] ---------------> Send message to QUEUE" />
 						</camel:split>
 					</camel:when>
 				</camel:choice>
