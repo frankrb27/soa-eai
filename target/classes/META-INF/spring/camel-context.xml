@@ -10,28 +10,33 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 
 	<import resource="mq-conf.xml" />
 
-	<bean class="com.rabbitmq.client.ConnectionFactory" id="customConnectionFactory">
-		<property name="host" value="localhost" />
-		<property name="port" value="5672" />
-		<property name="username" value="guest" />
-		<property name="password" value="guest" />
-	</bean>
+	<!--bean class="com.rabbitmq.client.ConnectionFactory" id="customConnectionFactory"> 
+		<property name="host" value="localhost" /> <property name="port" value="5672" 
+		/> <property name="username" value="guest" /> <property name="password" value="guest" 
+		/> </bean -->
 
 	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
 		xmlns:tns="http://aerolineas-latinoamericanas/contract/messages">
 		<camel:route id="taller-soa-eai-eai">
-			<camel:from
-				uri="rabbitmq://localhost:5672/aircraft-suscription?connectionFactory=#customConnectionFactory&amp;autoDelete=false&amp;queue=AIRCRAFT.LINE.BRIDGE.TOPIC&amp;routingKey=soa-eai" />
-			<camel:log message="Active JBossFuse" />
+			<!--camel:from uri="rabbitmq://localhost:5672/aircraft-suscription?connectionFactory=#customConnectionFactory&amp;autoDelete=false&amp;queue=AIRCRAFT.LINE.BRIDGE.TOPIC&amp;routingKey=soa-eai" 
+				/ -->
+			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
+			<camel:log message="[JBossFuse] ---------------> Active JBossFuse" />
 			<camel:multicast>
 				<camel:choice>
 					<camel:when>
-						<!-- BLIZARD FLIGHTS.GUARD.REQUEST.QUEUE -->
-						<camel:xpath></camel:xpath>
-						<camel:to uri="xslt:xslt/air-shopping.xls" />
-						<camel:to
-							uri="file:/opt/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
-						<camel:log message="File Blizard Generated" />
+						<!-- FLIGHT GUARDS -->
+						<camel:xpath>count(//tns:aircratline-message/tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0</camel:xpath>
+						<camel:split>
+							<camel:xpath>/tns:aircratline-message/tns:flight-leg[tns:domain-events-info/tns:alert-on-air]</camel:xpath>
+							<camel:to uri="xslt:transformation/alert-on-air.xsl" />
+							<camel:log message="[JBossFuse] ---------------> On Air Alert" />
+							<!-- FLIGHTS.GUARD.REQUEST.QUEUE -->
+							<camel:to
+								uri="file:/home/frank/target-system/flight-guards?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
+							<camel:log
+								message="[JBossFuse] ---------------> Send message to Flight Guards QUEUE" />
+						</camel:split>
 					</camel:when>
 				</camel:choice>
 			</camel:multicast>
