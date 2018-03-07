@@ -1,0 +1,45 @@
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:ser="http://order.camelinaction" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://localhost:9494/web-sandbox-api/endpoint/flights-update-api-1.0.0">
+	<wsdl:message name="request">
+		<wsdl:part name="aircraftIdentifier" type="string" />
+		<wsdl:part name="arrivalAirport" type="string" />
+		<wsdl:part name="arrivalGate" type="string" />
+		<wsdl:part name="departureAirport" type="string" />
+		<wsdl:part name="departureGate" type="string" />
+		<wsdl:part name="endDate" type="date" />
+		<wsdl:part name="externalKey" type="string" />
+		<wsdl:part name="startDate" type="date" />
+		<wsdl:part name="status" type="string" />
+	</wsdl:message>
+	<wsdl:message name="response">
+		<wsdl:part name="code" element="ser:code" />
+	</wsdl:message>
+	<wsdl:portType name="MaintenancePlannerEndpoint">
+		<wsdl:operation name="Update">
+			<wsdl:input message="ser:purchaseOrder" />
+			<wsdl:output message="ser:response" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="MaintenancePlannerBinding" type="ser:MaintenancePlannerEndpoint">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="update">
+			<soap:operation
+				soapAction="http://localhost:9494/web-sandbox-api/endpoint/flights-update-api-1.0.0/Update"
+				style="document" />
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="MaintenancePlannerEndpointService">
+		<wsdl:port name="MaintenancePlannerService" binding="ser:MaintenancePlannerBinding">
+			<soap:address
+				location="http://localhost:9494/web-sandbox-api/endpoint/flights-update-api-1.0.0" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

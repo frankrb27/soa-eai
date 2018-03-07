@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://localhost:9494/web-sandbox-api/endpoint/flights-update-api-1.0.0"
+	xmlns:tns="http://localhost:9494/web-sandbox-api/endpoint/flights-update-api-1.0.0"
+	elementFormDefault="qualified">
+
+	<element name="update">
+		<complexType>
+			<sequence>
+				<element name="request" type="tns:request" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<complexType name="request">
+		<sequence>
+			<element name="aircraftIdentifier" type="string" />
+			<element name="arrivalAirport" type="string" />
+			<element name="arrivalGate" type="string" />
+			<element name="departureAirport" type="string" />
+			<element name="departureGate" type="string" />
+			<element name="endDate" type="date" />
+			<element name="externalKey" type="string" />
+			<element name="startDate" type="date" />
+			<element name="status" type="string" />
+		</sequence>
+	</complexType>
+
+</schema>
