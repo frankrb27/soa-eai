@@ -20,8 +20,7 @@
 				<xsl:value-of select="//tns:tail-number/@external-key" />
 			</aircraft-tail-number>
 			<incident-date>
-				<xsl:value-of
-					select="java:format(java:java.text.SimpleDateFormat.new('yyyy-MM-dd HH:mm:ss.SSS'), java:java.util.Date.new())" />
+					000000
 			</incident-date>
 		</security-incidents>
 	</xsl:template>
