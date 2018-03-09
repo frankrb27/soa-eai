@@ -24,21 +24,29 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 				fragment="true" partClass="co.com.canonical.flights.FlightLeg" />
 		</camel:dataFormats>
 
-		<camel:route id="taller-soa-eai-eai">
+		<camel:route id="aircraft-line-integration">
+			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
 			<!--camel:from uri="rabbitmq://localhost:5672/aircraft-suscription?connectionFactory=#customConnectionFactory&amp;autoDelete=false&amp;queue=AIRCRAFT.LINE.BRIDGE.TOPIC&amp;routingKey=soa-eai" 
 				/ -->
-			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
+			<camel:split>
+				<camel:xpath>/tns:aircratline-message/tns:flight-leg</camel:xpath>
+				<camel:unmarshal ref="jaxb" />
+				<camel:to uri="seda:leg-integration" />
+			</camel:split>
+		</camel:route>
+
+		<camel:route id="leg-integration">
+			<camel:from uri="seda:leg-integration" />
 			<camel:log message="[JBossFuse] ---------------> Active JBossFuse" />
 			<camel:multicast>
 				<camel:choice>
 					<camel:when>
 						<!-- BLIZARD -->
-						<camel:xpath>count(//tns:aircratline-message/tns:flight-leg/tns:domain-events-info/tns:on-air-shopping)>0</camel:xpath>
-						<camel:marshal ref="jaxb"/>
+						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:on-air-shopping)>0</camel:xpath>
 						<camel:process ref="myFileProcessor" />
 						<camel:log message="[JBossFuse] ---------------> On Air Shopping" />
 						<camel:to
-							uri="file:/home/frank/target-system/blizard?fileName=output-${id}.xml" />
+							uri="file:/home/frank/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
 						<camel:log
 							message="[JBossFuse] ---------------> Send file to BLIZARD SYSTEM" />
 					</camel:when>
@@ -46,14 +54,13 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 				<camel:choice>
 					<camel:when>
 						<!-- FLIGHT GUARDS -->
-						<camel:xpath>count(//tns:aircratline-message/tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0</camel:xpath>
+						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0</camel:xpath>
 						<camel:split>
-							<camel:xpath>/tns:aircratline-message/tns:flight-leg[tns:domain-events-info/tns:alert-on-air]</camel:xpath>
+							<camel:xpath>/tns:flight-leg[tns:domain-events-info/tns:alert-on-air]</camel:xpath>
 							<camel:to uri="xslt:transformation/alert-on-air.xsl" />
 							<camel:log message="[JBossFuse] ---------------> On Air Alert" />
 							<!-- FLIGHTS.GUARD.REQUEST.QUEUE -->
-							<camel:to
-								uri="file:/home/frank/target-system/flight-guards?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
+							<camel:to uri="activemq:queue:FLIGHTS.GUARD.REQUEST.QUEUE" />
 							<camel:log
 								message="[JBossFuse] ---------------> Send message to Flight Guards QUEUE" />
 						</camel:split>
