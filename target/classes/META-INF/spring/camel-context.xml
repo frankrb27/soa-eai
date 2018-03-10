@@ -21,7 +21,7 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 
 		<camel:dataFormats>
 			<camel:jaxb id="jaxb" contextPath="co.com.canonical.flights"
-				fragment="true" partClass="co.com.canonical.flights.FlightLeg" />
+				fragment="true" partClass="co.com.canonical.flights.AircratlineMessage" />
 		</camel:dataFormats>
 
 		<camel:route id="aircraft-line-integration">
@@ -29,7 +29,8 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 			<!--camel:from uri="rabbitmq://localhost:5672/aircraft-suscription?connectionFactory=#customConnectionFactory&amp;autoDelete=false&amp;queue=AIRCRAFT.LINE.BRIDGE.TOPIC&amp;routingKey=soa-eai" 
 				/ -->
 			<camel:split>
-				<camel:xpath>/tns:aircratline-message/tns:flight-leg</camel:xpath>
+				<camel:xpath>/tns:aircratline-message</camel:xpath>
+				<convertBodyTo type="co.com.canonical.flights.AircratlineMessage"/>
 				<camel:unmarshal ref="jaxb" />
 				<camel:to uri="seda:leg-integration" />
 			</camel:split>
@@ -56,7 +57,7 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 						<!-- FLIGHT GUARDS -->
 						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0</camel:xpath>
 						<camel:split>
-							<camel:xpath>/tns:flight-leg[tns:domain-events-info/tns:alert-on-air]</camel:xpath>
+							<camel:xpath>//tns:flight-leg/tns:domain-events-info/tns:alert-on-air</camel:xpath>
 							<camel:to uri="xslt:transformation/alert-on-air.xsl" />
 							<camel:log message="[JBossFuse] ---------------> On Air Alert" />
 							<!-- FLIGHTS.GUARD.REQUEST.QUEUE -->

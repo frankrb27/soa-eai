@@ -4,6 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.stereotype.Component;
 
+import co.com.canonical.flights.AircratlineMessage;
 import co.com.canonical.flights.DomainEventsInfo.OnAirShopping;
 import co.com.canonical.flights.FlightLeg;
 
@@ -12,7 +13,7 @@ public class ShoppingTransformer implements Processor{
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		OnAirShopping airShopping = exchange.getIn().getBody(FlightLeg.class).getDomainEventsInfo().getOnAirShopping();
+		OnAirShopping airShopping = exchange.getIn().getBody(AircratlineMessage.class).getFlightLeg().get(0).getDomainEventsInfo().getOnAirShopping();
 
 		StringBuilder xml = new StringBuilder();
 		xml.append(leftPadding("1", "0", 10));
