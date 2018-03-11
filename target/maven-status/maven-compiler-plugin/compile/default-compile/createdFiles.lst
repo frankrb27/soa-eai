@@ -1,5 +1,4 @@
 co/com/ws/maintenance_planner/MaintenancePlannerRequest.class
-com/javainuse/package-info.class
 co/com/canonical/flights/DomainEventsInfo.class
 co/com/ws/processor/CancelFlightProcessor.class
 co/com/ws/maintenance_planner/MaintenancePlannerResponse.class
@@ -12,7 +11,6 @@ co/com/ws/cancel_flight/package-info.class
 co/com/ws/processor/OnAirShoppingProcessor.class
 co/com/canonical/flights/FlightLeg.class
 co/com/ws/alert_on_air/AlertOnAirRequest.class
-com/javainuse/SOATestEndpoint.class
 co/com/ws/alert_on_air/package-info.class
 co/com/ws/on_air_shopping/OnAirShoppingEndpoint.class
 co/com/ws/on_air_shopping/OnAirShoppingResponse.class
@@ -36,17 +34,12 @@ co/com/canonical/flights/DomainEventsInfo$OnAirShopping.class
 co/com/ws/alert_on_air/AlertOnAirEndpointService.class
 co/com/ws/alert_on_air/ObjectFactory.class
 co/com/canonical/flights/package-info.class
-com/javainuse/SOATestEndpointService.class
 co/com/ws/maintenance_planner/MaintenancePlannerEndpoint.class
-com/javainuse/ObjectFactory.class
-com/javainuse/InputSOATest.class
-com/javainuse/beans/CamelProcessor.class
 co/com/ws/on_air_shopping/OnAirShoppingEndpointService.class
 co/com/core/transformer/ShoppingTransformer.class
 co/com/canonical/flights/ObjectFactory.class
 co/com/ws/alert_on_air/AlertOnAirResponse.class
 co/com/ws/processor/MaintenancePlannerProcessor.class
 co/com/canonical/flights/OperationalInfo.class
-com/javainuse/OutputSOATest.class
 co/com/ws/alert_on_air/AlertOnAirEndpoint.class
 co/com/ws/maintenance_planner/MaintenancePlannerEndpointService.class

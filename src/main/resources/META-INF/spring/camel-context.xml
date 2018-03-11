@@ -40,6 +40,7 @@
 	<bean id="processShopping" class="co.com.ws.processor.OnAirShoppingProcessor" />
 	<bean id="processCancel" class="co.com.ws.processor.CancelFlightProcessor" />
 	<bean id="processMaintenance" class="co.com.ws.processor.MaintenancePlannerProcessor" />
+	<!-- TRANSFORMERS -->
 	<bean id="shoppingTransform" class="co.com.core.transformer.ShoppingTransformer" />
 
 	<camelContext id="domainEvents" xmlns="http://camel.apache.org/schema/spring">
@@ -70,6 +71,12 @@
 
 		<camel:route id="sendMaintenance">
 			<camel:from uri="cxf:bean:cxfMaintenance" />
+			<camel:convertBodyTo type="co.com.ws.maintenance_planner.MaintenancePlannerRequest" />
+			<camel:to uri="xslt:transformation/maintenance-planner.xsl" />
+			<camel:log
+				message="[JBossFuse - sendMaintenance] ---------------> Send XMl message" />
+			<camel:to
+				uri="file:/home/frank/target-system/maintenance?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
 			<process ref="processMaintenance" />
 		</camel:route>
 	</camelContext>
