@@ -1,20 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:camel="http://camel.apache.org/schema/spring" xmlns:cxf="http://camel.apache.org/schema/cxf"
 	xsi:schemaLocation="
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
 
 
 	<import resource="mq-conf.xml" />
-	<bean id="myFileProcessor" class="co.com.core.transformer.ShoppingTransformer" />
+	<bean id="shoppingProcessor" class="co.com.core.transformer.ShoppingTransformer" />
 
 	<!--bean class="com.rabbitmq.client.ConnectionFactory" id="customConnectionFactory"> 
 		<property name="host" value="localhost" /> <property name="port" value="5672" 
 		/> <property name="username" value="guest" /> <property name="password" value="guest" 
 		/> </bean -->
+
+	<!-- INI : SOAP FOR BPEL -->
+	<cxf:cxfEndpoint id="cxfAlert" address="/ws/alert-on-air"
+		endpointName="tns:AlertOnAirEndpoint" serviceName="tns:AlertOnAirEndpointService"
+		wsdlURL="deploy/wsdl/alert-on-air.wsdl" serviceClass="co.com.ws.alert_on_air.AlertOnAirEndpoint"
+		xmlns:tns="http://alert-on-air.ws.com.co" />
+
+	<cxf:cxfEndpoint id="cxfShopping" address="/ws/on-air-shopping"
+		endpointName="tns:OnAirShoppingEndpoint" serviceName="tns:OnAirShoppingEndpointService"
+		wsdlURL="deploy/wsdl/on-air-shopping.wsdl" serviceClass="co.com.ws.on_air_shopping.OnAirShoppingEndpoint"
+		xmlns:tns="http://on-air-shopping.ws.com.co" />
+
+	<cxf:cxfEndpoint id="cxfCancel" address="/ws/cancel-flight"
+		endpointName="tns:CancelFlightEndpoint" serviceName="tns:CancelFlightEndpointService"
+		wsdlURL="deploy/wsdl/cancel-flight.wsdl" serviceClass="co.com.ws.cancel_flight.CancelFlightEndpoint"
+		xmlns:tns="http://cancel-flight.ws.com.co" />
+
+	<cxf:cxfEndpoint id="cxfMaintenance" address="/ws/maintenance-planner"
+		endpointName="tns:MaintenancePlannerEndpoint" serviceName="tns:MaintenancePlannerEndpointService"
+		wsdlURL="deploy/wsdl/maintenance-planner.wsdl" serviceClass="co.com.ws.maintenance_planner.MaintenancePlannerEndpoint"
+		xmlns:tns="http://maintenance-planner.ws.com.co" />
+
+	<bean id="processAlert" class="co.com.ws.processor.AlertOnAirProcessor" />
+	<bean id="processShopping" class="co.com.ws.processor.OnAirShoppingProcessor" />
+	<bean id="processCancel" class="co.com.ws.processor.CancelFlightProcessor" />
+	<bean id="processMaintenance" class="co.com.ws.processor.MaintenancePlannerProcessor" />
+
+
+	<camelContext id="domainEvents" xmlns="http://camel.apache.org/schema/spring">
+		<camel:route id="createAlert">
+			<camel:from uri="cxf:bean:cxfAlert" />
+			<process ref="processAlert" />
+		</camel:route>
+
+		<camel:route id="createShopping">
+			<camel:from uri="cxf:bean:cxfShopping" />
+			<process ref="processShopping" />
+			<camel:log message="[JBossFuse - createShopping] ---------------> File generated" />
+			<camel:to
+				uri="file:/home/frank/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
+		</camel:route>
+
+		<camel:route id="cancelFlight">
+			<camel:from uri="cxf:bean:cxfCancel" />
+			<process ref="processCancel" />
+		</camel:route>
+
+		<camel:route id="sendMaintenance">
+			<camel:from uri="cxf:bean:cxfMaintenance" />
+			<process ref="processMaintenance" />
+		</camel:route>
+	</camelContext>
+	<!-- FIN : SOAP FOR BPEL -->
 
 	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
 		xmlns:tns="http://aerolineas-latinoamericanas/contract/messages">
@@ -30,7 +83,7 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 				/ -->
 			<camel:split>
 				<camel:xpath>/tns:aircratline-message</camel:xpath>
-				<convertBodyTo type="co.com.canonical.flights.AircratlineMessage"/>
+				<convertBodyTo type="co.com.canonical.flights.AircratlineMessage" />
 				<camel:unmarshal ref="jaxb" />
 				<camel:to uri="seda:leg-integration" />
 			</camel:split>
@@ -43,8 +96,9 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 				<camel:choice>
 					<camel:when>
 						<!-- BLIZARD -->
-						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:on-air-shopping)>0</camel:xpath>
-						<camel:process ref="myFileProcessor" />
+						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:on-air-shopping)>0
+						</camel:xpath>
+						<camel:process ref="shoppingProcessor" />
 						<camel:log message="[JBossFuse] ---------------> On Air Shopping" />
 						<camel:to
 							uri="file:/home/frank/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
@@ -55,9 +109,11 @@ http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/came
 				<camel:choice>
 					<camel:when>
 						<!-- FLIGHT GUARDS -->
-						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0</camel:xpath>
+						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0
+						</camel:xpath>
 						<camel:split>
-							<camel:xpath>//tns:flight-leg/tns:domain-events-info/tns:alert-on-air</camel:xpath>
+							<camel:xpath>//tns:flight-leg/tns:domain-events-info/tns:alert-on-air
+							</camel:xpath>
 							<camel:to uri="xslt:transformation/alert-on-air.xsl" />
 							<camel:log message="[JBossFuse] ---------------> On Air Alert" />
 							<!-- FLIGHTS.GUARD.REQUEST.QUEUE -->

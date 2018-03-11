@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://on-air-shopping.ws.com.co" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://on-air-shopping.ws.com.co">
+
+	<wsdl:types>
+		<xs:schema targetNamespace="http://on-air-shopping.ws.com.co">
+			<xs:element name="onAirShoppingRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="creditCard" />
+						<xs:element type="xs:date" name="date" />
+						<xs:element type="xs:string" name="description" />
+						<xs:element type="xs:double" name="value" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="onAirShoppingResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="code" />
+						<xs:element type="xs:string" name="description" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+
+	<wsdl:message name="onAirShoppingRequest">
+		<wsdl:part name="in" element="tns:onAirShoppingRequest" />
+	</wsdl:message>
+	<wsdl:message name="onAirShoppingResponse">
+		<wsdl:part name="out" element="tns:onAirShoppingResponse" />
+	</wsdl:message>
+
+	<wsdl:portType name="OnAirShoppingEndpoint">
+		<wsdl:operation name="create">
+			<wsdl:input message="tns:onAirShoppingRequest" />
+			<wsdl:output message="tns:onAirShoppingResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="OnAirShopping" type="tns:OnAirShoppingEndpoint">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="create">
+			<soap:operation soapAction="http://on-air-shopping.ws.com.co"
+				style="document" />
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="OnAirShoppingEndpointService">
+		<wsdl:port name="OnAirShoppingEndpoint" binding="tns:OnAirShopping">
+			<soap:address location="http://localhost:8181/cxf/ws/on-air-shopping" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

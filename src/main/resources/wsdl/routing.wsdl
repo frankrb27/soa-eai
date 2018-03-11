@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://ws.core.com.co" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://ws.core.com.co">
+
+	<wsdl:types>
+		<xs:schema targetNamespace="http://ws.core.com.co">
+			<xs:element name="alertRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="aircrat-tail-number" />
+						<xs:element type="xs:string" name="flight-external-key" />
+						<xs:element type="xs:string" name="level" />
+						<xs:element type="xs:string" name="description" />
+						<xs:element type="xs:date" name="date" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="alertResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="code" />
+						<xs:element type="xs:string" name="description" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="shoppingRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="creditCard" />
+						<xs:element type="xs:date" name="date" />
+						<xs:element type="xs:string" name="description" />
+						<xs:element type="xs:double" name="value" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="shoppingResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="code" />
+						<xs:element type="xs:string" name="description" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="cancelFlightRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="aircrat-tail-number" />
+						<xs:element type="xs:string" name="flight-external-key" />
+						<xs:element type="xs:string" name="description" />
+						<xs:element type="xs:date" name="date" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="cancelFlightResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="code" />
+						<xs:element type="xs:string" name="description" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="maintenanceRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="aircrat-tail-number" />
+						<xs:element type="xs:string" name="flight-external-key" />
+						<xs:element type="xs:string" name="arrivalAirport" />
+						<xs:element type="xs:string" name="arrivalGate" />
+						<xs:element type="xs:string" name="departureAirport" />
+						<xs:element type="xs:string" name="departureGate" />
+						<xs:element type="xs:date" name="startDate" />
+						<xs:element type="xs:date" name="endDate" />
+						<xs:element type="xs:string" name="status" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="maintenanceResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="code" />
+						<xs:element type="xs:string" name="description" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="alertRequest">
+		<wsdl:part name="in" element="tns:alertRequest" />
+	</wsdl:message>
+	<wsdl:message name="alertResponse">
+		<wsdl:part name="out" element="tns:alertResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="shoppingRequest">
+		<wsdl:part name="in" element="tns:shoppingRequest" />
+	</wsdl:message>
+	<wsdl:message name="shoppingResponse">
+		<wsdl:part name="out" element="tns:shoppingResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="cancelFlightRequest">
+		<wsdl:part name="in" element="tns:cancelFlightRequest" />
+	</wsdl:message>
+	<wsdl:message name="cancelFlightResponse">
+		<wsdl:part name="out" element="tns:cancelFlightResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="maintenanceRequest">
+		<wsdl:part name="in" element="tns:maintenanceRequest" />
+	</wsdl:message>
+	<wsdl:message name="maintenanceResponse">
+		<wsdl:part name="out" element="tns:maintenanceResponse" />
+	</wsdl:message>
+
+	<wsdl:portType name="CreateDomainEventEndpoint">
+		<wsdl:operation name="createAlert">
+			<wsdl:input message="tns:alertRequest" />
+			<wsdl:output message="tns:alertResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="createShopping">
+			<wsdl:input message="tns:shoppingRequest" />
+			<wsdl:output message="tns:shoppingResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="cancelFlight">
+			<wsdl:input message="tns:cancelFlightRequest" />
+			<wsdl:output message="tns:cancelFlightResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="sendMaintenance">
+			<wsdl:input message="tns:maintenanceRequest" />
+			<wsdl:output message="tns:maintenanceResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="CreateDomainEvent" type="tns:CreateDomainEventEndpoint">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="createAlert">
+			<soap:operation soapAction="http://ws.core.com.co"
+				style="document" />
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createShopping">
+			<soap:operation soapAction="http://ws.core.com.co"
+				style="document" />
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="cancelFlight">
+			<soap:operation soapAction="http://ws.core.com.co"
+				style="document" />
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sendMaintenance">
+			<soap:operation soapAction="http://ws.core.com.co"
+				style="document" />
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="CreateDomainEventEndpointService">
+		<wsdl:port name="CreateDomainEventEndpoint" binding="tns:CreateDomainEvent">
+			<soap:address location="http://localhost:8181/cxf/ws/core" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
