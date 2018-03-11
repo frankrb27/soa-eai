@@ -9,7 +9,6 @@
 
 
 	<import resource="mq-conf.xml" />
-	<bean id="shoppingProcessor" class="co.com.core.transformer.ShoppingTransformer" />
 
 	<!--bean class="com.rabbitmq.client.ConnectionFactory" id="customConnectionFactory"> 
 		<property name="host" value="localhost" /> <property name="port" value="5672" 
@@ -41,20 +40,27 @@
 	<bean id="processShopping" class="co.com.ws.processor.OnAirShoppingProcessor" />
 	<bean id="processCancel" class="co.com.ws.processor.CancelFlightProcessor" />
 	<bean id="processMaintenance" class="co.com.ws.processor.MaintenancePlannerProcessor" />
-
+	<bean id="shoppingTransform" class="co.com.core.transformer.ShoppingTransformer" />
 
 	<camelContext id="domainEvents" xmlns="http://camel.apache.org/schema/spring">
 		<camel:route id="createAlert">
 			<camel:from uri="cxf:bean:cxfAlert" />
+			<camel:convertBodyTo type="co.com.ws.alert_on_air.AlertOnAirRequest" />
+			<camel:to uri="xslt:transformation/alert-on-air.xsl" />
+			<camel:inOnly uri="activemq:queue:FLIGHTS.GUARD.REQUEST.QUEUE" />
+			<camel:log
+				message="[JBossFuse - createAlert] ---------------> Send message to Flight Guards QUEUE" />
 			<process ref="processAlert" />
 		</camel:route>
 
 		<camel:route id="createShopping">
 			<camel:from uri="cxf:bean:cxfShopping" />
-			<process ref="processShopping" />
-			<camel:log message="[JBossFuse - createShopping] ---------------> File generated" />
+			<process ref="shoppingTransform" />
+			<camel:log
+				message="[JBossFuse - createShopping] ---------------> File generated" />
 			<camel:to
 				uri="file:/home/frank/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
+			<process ref="processShopping" />
 		</camel:route>
 
 		<camel:route id="cancelFlight">
@@ -98,7 +104,7 @@
 						<!-- BLIZARD -->
 						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:on-air-shopping)>0
 						</camel:xpath>
-						<camel:process ref="shoppingProcessor" />
+						<camel:process ref="shoppingTransform" />
 						<camel:log message="[JBossFuse] ---------------> On Air Shopping" />
 						<camel:to
 							uri="file:/home/frank/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />

@@ -1,24 +1,24 @@
 package co.com.core.transformer;
 
+import java.util.List;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.stereotype.Component;
 
-import co.com.canonical.flights.AircratlineMessage;
-import co.com.canonical.flights.DomainEventsInfo.OnAirShopping;
-import co.com.canonical.flights.FlightLeg;
+import co.com.ws.on_air_shopping.OnAirShoppingRequest;
 
 @Component
 public class ShoppingTransformer implements Processor{
 
-	@Override
-	public void process(Exchange exchange) throws Exception {
-		OnAirShopping airShopping = exchange.getIn().getBody(AircratlineMessage.class).getFlightLeg().get(0).getDomainEventsInfo().getOnAirShopping();
+    public void process(Exchange exchange) throws Exception {
+        List soaList = exchange.getIn().getBody(List.class);
+        OnAirShoppingRequest airShopping = (OnAirShoppingRequest) soaList.get(0);
 
 		StringBuilder xml = new StringBuilder();
 		xml.append(leftPadding("1", "0", 10));
-		xml.append(leftPadding(airShopping.getCreditCardNumber(), "0", 10));
-		xml.append(airShopping.getCreditCardNumber());
+		xml.append(leftPadding(airShopping.getCreditCard(), "0", 10));
+		xml.append(airShopping.getCreditCard());
 		xml.append(leftPadding(String.valueOf(airShopping.getValue()), "0", 4));
 		xml.append(leftPadding(airShopping.getDescription(), " ", 100));
 
@@ -50,4 +50,6 @@ public class ShoppingTransformer implements Processor{
 			return null;
 		}
 	}
+    
+
 }
