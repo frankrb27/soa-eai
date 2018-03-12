@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "FlightsUpdateApiService", targetNamespace = "http://mtx-sandbox-api/services", wsdlLocation = "file:/home/frank/Descargas/axis2-1.7.7/bin/flights-update.wsdl")
+@WebServiceClient(name = "FlightsUpdateApiService", targetNamespace = "http://mtx-sandbox-api/services")
 public class FlightsUpdateApiService
     extends Service
 {
@@ -30,7 +30,7 @@ public class FlightsUpdateApiService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/frank/Descargas/axis2-1.7.7/bin/flights-update.wsdl");
+            url = new URL("file:/home/frank/GDX/Personal/jav/impl/taller-soa-eai/src/main/resources/wsdl/ext/flights-update.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

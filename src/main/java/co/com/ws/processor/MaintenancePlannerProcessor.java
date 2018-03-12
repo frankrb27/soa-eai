@@ -7,6 +7,7 @@ import org.apache.camel.Processor;
 
 import co.com.ws.maintenance_planner.MaintenancePlannerRequest;
 import co.com.ws.maintenance_planner.MaintenancePlannerResponse;
+import co.com.ws.processor.invoke.InvokeSoapService;
 import mtx_sandbox_api.services.FlightUpdateRequest;
 import mtx_sandbox_api.services.FlightUpdateStatus;
 import mtx_sandbox_api.services.Update;
@@ -21,7 +22,6 @@ public class MaintenancePlannerProcessor implements Processor {
 
 		
 		try {
-			Update requetUpd = new Update();
 			FlightUpdateRequest request = new FlightUpdateRequest();
 			request.setAircraftIdentifier(requestMain.getAircratTailNumber());
 			request.setArrivalAirport(requestMain.getArrivalAirport());
@@ -32,10 +32,9 @@ public class MaintenancePlannerProcessor implements Processor {
 			request.setExternalKey(requestMain.getFlightExternalKey());
 			request.setStartDate(requestMain.getStartDate());
 			request.setStatus(FlightUpdateStatus.valueOf(requestMain.getStatus()));
-			requetUpd.setRequest(request);
-//			new InvokeSoapService().updateFlight(requetUpd);
+			String res = new InvokeSoapService().updateFlight(request);
 			response.setCode("0");
-			response.setDescription("OK");
+			response.setDescription("Maintenance planner code "+res+ " for AircratTailNumber "+requestMain.getAircratTailNumber());
 			exchange.getOut().setBody(response);
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -32,7 +32,7 @@ public class CancelFlightProcessor implements Processor {
         CancelResponse responseTemplate = restTemplate.postForObject(ENDPOINT, requestBody, CancelResponse.class);
         
         response.setCode("0");
-        response.setDescription("Authorization code: "+responseTemplate.getId()+ " for AircratTailNumber: "+cancel.getAircratTailNumber());
+        response.setDescription("Cancel flight code: "+responseTemplate.getId()+ " for AircratTailNumber "+cancel.getAircratTailNumber());
         exchange.getOut().setBody(response);
         //http://localhost:9494/web-sandbox-api/endpoint/rest/cancel-api/process
     }
