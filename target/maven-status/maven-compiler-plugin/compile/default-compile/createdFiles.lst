@@ -7,6 +7,7 @@ co/com/ws/processor/CancelFlightProcessor.class
 co/com/ws/maintenance_planner/MaintenancePlannerResponse.class
 co/com/canonical/flights/DomainEventsInfo$ActualIngate.class
 co/com/canonical/flights/AircratlineMessage.class
+co/com/rest/client/cancel_flight/CancelRequest.class
 co/com/ws/cancel_flight/ObjectFactory.class
 co/com/ws/processor/AlertOnAirProcessor.class
 mtx_sandbox_api/services/Update.class
@@ -21,7 +22,6 @@ mtx_sandbox_api/services/FlightUpdateRequest.class
 co/com/ws/on_air_shopping/OnAirShoppingEndpoint.class
 co/com/ws/on_air_shopping/OnAirShoppingResponse.class
 co/com/ws/cancel_flight/CancelFlightEndpoint.class
-co/com/rest/client/cancel_flight/CancelFlightResponse.class
 co/com/canonical/flights/AlertType.class
 co/com/ws/maintenance_planner/package-info.class
 co/com/ws/cancel_flight/CancelFlightResponse.class
@@ -47,7 +47,6 @@ mtx_sandbox_api/services/MoppRequest.class
 co/com/ws/maintenance_planner/MaintenancePlannerEndpoint.class
 co/com/ws/on_air_shopping/OnAirShoppingEndpointService.class
 co/com/core/transformer/ShoppingTransformer.class
-co/com/rest/client/cancel_flight/CancelFlightRequest.class
 mtx_sandbox_api/services/SendMoppResponse.class
 co/com/canonical/flights/ObjectFactory.class
 co/com/ws/alert_on_air/AlertOnAirResponse.class
@@ -57,3 +56,4 @@ mtx_sandbox_api/services/FlightsUpdateApi.class
 mtx_sandbox_api/services/ObjectFactory.class
 co/com/ws/alert_on_air/AlertOnAirEndpoint.class
 co/com/ws/maintenance_planner/MaintenancePlannerEndpointService.class
+co/com/rest/client/cancel_flight/CancelResponse.class

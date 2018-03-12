@@ -16,9 +16,10 @@ public class MaintenancePlannerProcessor implements Processor {
 
 	public void process(Exchange exchange) throws Exception {
 		MaintenancePlannerResponse response = new MaintenancePlannerResponse();
-		List soaList = exchange.getIn().getBody(List.class);
-		MaintenancePlannerRequest requestMain = (MaintenancePlannerRequest) soaList.get(0);
-
+//		List soaList = exchange.getIn().getBody(List.class);
+//		MaintenancePlannerRequest requestMain = (MaintenancePlannerRequest) soaList.get(0);
+		MaintenancePlannerRequest requestMain = new MaintenancePlannerRequest();
+		
 		try {
 			InvokeSoapService invoke = new InvokeSoapService();
 			Update requetUpd = new Update();

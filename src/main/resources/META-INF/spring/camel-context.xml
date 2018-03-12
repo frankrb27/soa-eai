@@ -10,11 +10,6 @@
 
 	<import resource="mq-conf.xml" />
 
-	<!--bean class="com.rabbitmq.client.ConnectionFactory" id="customConnectionFactory"> 
-		<property name="host" value="localhost" /> <property name="port" value="5672" 
-		/> <property name="username" value="guest" /> <property name="password" value="guest" 
-		/> </bean -->
-
 	<!-- INI : SOAP FOR BPEL -->
 	<cxf:cxfEndpoint id="cxfAlert" address="/ws/alert-on-air"
 		endpointName="tns:AlertOnAirEndpoint" serviceName="tns:AlertOnAirEndpointService"
@@ -67,18 +62,29 @@
 		<camel:route id="cancelFlight">
 			<camel:from uri="cxf:bean:cxfCancel" />
 			<process ref="processCancel" />
+			<camel:log
+				message="[JBossFuse - cancelFlight ---------------> Send XML message (Rest-Service)" />
 		</camel:route>
 
 		<camel:route id="sendMaintenance">
 			<camel:from uri="cxf:bean:cxfMaintenance" />
 			<process ref="processMaintenance" />
 			<camel:log
-				message="[JBossFuse - sendMaintenance] ---------------> Send XMl message" />
+				message="[JBossFuse - sendMaintenance] ---------------> Send XMl message (SOAP)" />
 			<camel:to
 				uri="file:/home/frank/target-system/maintenance?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
 		</camel:route>
 	</camelContext>
 	<!-- FIN : SOAP FOR BPEL -->
+
+
+
+
+
+
+
+
+
 
 	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
 		xmlns:tns="http://aerolineas-latinoamericanas/contract/messages">
@@ -91,7 +97,7 @@
 		<camel:route id="aircraft-line-integration">
 			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
 			<!--camel:from uri="rabbitmq://localhost:5672/aircraft-suscription?connectionFactory=#customConnectionFactory&amp;autoDelete=false&amp;queue=AIRCRAFT.LINE.BRIDGE.TOPIC&amp;routingKey=soa-eai" 
-				/ -->
+				/-->
 			<camel:split>
 				<camel:xpath>/tns:aircratline-message</camel:xpath>
 				<convertBodyTo type="co.com.canonical.flights.AircratlineMessage" />
@@ -115,23 +121,6 @@
 							uri="file:/home/frank/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
 						<camel:log
 							message="[JBossFuse] ---------------> Send file to BLIZARD SYSTEM" />
-					</camel:when>
-				</camel:choice>
-				<camel:choice>
-					<camel:when>
-						<!-- FLIGHT GUARDS -->
-						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:alert-on-air)>0
-						</camel:xpath>
-						<camel:split>
-							<camel:xpath>//tns:flight-leg/tns:domain-events-info/tns:alert-on-air
-							</camel:xpath>
-							<camel:to uri="xslt:transformation/alert-on-air.xsl" />
-							<camel:log message="[JBossFuse] ---------------> On Air Alert" />
-							<!-- FLIGHTS.GUARD.REQUEST.QUEUE -->
-							<camel:to uri="activemq:queue:FLIGHTS.GUARD.REQUEST.QUEUE" />
-							<camel:log
-								message="[JBossFuse] ---------------> Send message to Flight Guards QUEUE" />
-						</camel:split>
 					</camel:when>
 				</camel:choice>
 			</camel:multicast>

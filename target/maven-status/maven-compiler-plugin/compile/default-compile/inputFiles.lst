@@ -8,10 +8,12 @@
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/canonical/flights/OperationalInfo.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/cancel_flight/ObjectFactory.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/canonical/flights/AlertType.java
+/home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/rest/client/cancel_flight/CancelRequest.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/maintenance_planner/MaintenancePlannerRequest.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/maintenance_planner/package-info.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/maintenance_planner/ObjectFactory.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/processor/invoke/InvokeSoapService.java
+/home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/rest/client/cancel_flight/CancelResponse.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/on_air_shopping/OnAirShoppingEndpoint.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/canonical/flights/ObjectFactory.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/mtx_sandbox_api/services/FlightUpdateRequest.java
@@ -31,7 +33,6 @@
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/alert_on_air/AlertOnAirResponse.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/canonical/flights/package-info.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/canonical/flights/FlightStatus.java
-/home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/rest/client/cancel_flight/CancelFlightResponse.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/mtx_sandbox_api/services/UpdateResponse.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/mtx_sandbox_api/services/SendMopp.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/mtx_sandbox_api/services/FlightsUpdateApi.java
@@ -45,7 +46,6 @@
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/mtx_sandbox_api/services/FlightUpdateStatus.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/alert_on_air/ObjectFactory.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/canonical/flights/DomainEventsInfo.java
-/home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/rest/client/cancel_flight/CancelFlightRequest.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/processor/AlertOnAirProcessor.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/on_air_shopping/ObjectFactory.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/maintenance_planner/MaintenancePlannerEndpoint.java
