@@ -7,7 +7,6 @@ import org.apache.camel.Processor;
 
 import co.com.ws.maintenance_planner.MaintenancePlannerRequest;
 import co.com.ws.maintenance_planner.MaintenancePlannerResponse;
-import co.com.ws.processor.invoke.InvokeSoapService;
 import mtx_sandbox_api.services.FlightUpdateRequest;
 import mtx_sandbox_api.services.FlightUpdateStatus;
 import mtx_sandbox_api.services.Update;
@@ -16,12 +15,12 @@ public class MaintenancePlannerProcessor implements Processor {
 
 	public void process(Exchange exchange) throws Exception {
 		MaintenancePlannerResponse response = new MaintenancePlannerResponse();
-//		List soaList = exchange.getIn().getBody(List.class);
-//		MaintenancePlannerRequest requestMain = (MaintenancePlannerRequest) soaList.get(0);
-		MaintenancePlannerRequest requestMain = new MaintenancePlannerRequest();
+		
+		List soaList = exchange.getIn().getBody(List.class);
+		MaintenancePlannerRequest requestMain = (MaintenancePlannerRequest) soaList.get(0);
+
 		
 		try {
-			InvokeSoapService invoke = new InvokeSoapService();
 			Update requetUpd = new Update();
 			FlightUpdateRequest request = new FlightUpdateRequest();
 			request.setAircraftIdentifier(requestMain.getAircratTailNumber());
@@ -34,7 +33,7 @@ public class MaintenancePlannerProcessor implements Processor {
 			request.setStartDate(requestMain.getStartDate());
 			request.setStatus(FlightUpdateStatus.valueOf(requestMain.getStatus()));
 			requetUpd.setRequest(request);
-			invoke.updateFlight(requetUpd);
+//			new InvokeSoapService().updateFlight(requetUpd);
 			response.setCode("0");
 			response.setDescription("OK");
 			exchange.getOut().setBody(response);
@@ -42,6 +41,7 @@ public class MaintenancePlannerProcessor implements Processor {
 			e.printStackTrace();
 			response.setCode("1");
 			response.setDescription("Failed: "+e.getMessage());
+			exchange.getOut().setBody(response);
 		}
 	}
 

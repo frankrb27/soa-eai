@@ -7,8 +7,6 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
-import mtx_sandbox_api.services.FlightUpdateRequest;
-import mtx_sandbox_api.services.FlightUpdateStatus;
 import mtx_sandbox_api.services.Update;
 import mtx_sandbox_api.services.UpdateResponse;
 

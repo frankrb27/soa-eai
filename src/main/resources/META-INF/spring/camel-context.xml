@@ -71,8 +71,6 @@
 			<process ref="processMaintenance" />
 			<camel:log
 				message="[JBossFuse - sendMaintenance] ---------------> Send XMl message (SOAP)" />
-			<camel:to
-				uri="file:/home/frank/target-system/maintenance?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
 		</camel:route>
 	</camelContext>
 	<!-- FIN : SOAP FOR BPEL -->
