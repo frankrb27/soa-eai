@@ -71,13 +71,11 @@
 
 		<camel:route id="sendMaintenance">
 			<camel:from uri="cxf:bean:cxfMaintenance" />
-			<camel:convertBodyTo type="co.com.ws.maintenance_planner.MaintenancePlannerRequest" />
-			<camel:to uri="xslt:transformation/maintenance-planner.xsl" />
+			<process ref="processMaintenance" />
 			<camel:log
 				message="[JBossFuse - sendMaintenance] ---------------> Send XMl message" />
 			<camel:to
 				uri="file:/home/frank/target-system/maintenance?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
-			<process ref="processMaintenance" />
 		</camel:route>
 	</camelContext>
 	<!-- FIN : SOAP FOR BPEL -->

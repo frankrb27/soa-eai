@@ -12,6 +12,7 @@ public class CancelFlightProcessor implements Processor {
         cancel.setCode("0");
         cancel.setDescription("OK");
         exchange.getOut().setBody(cancel);
+        //http://localhost:9494/web-sandbox-api/endpoint/rest/cancel-api/process
     }
 
 }

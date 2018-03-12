@@ -1,0 +1,117 @@
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://mtx-sandbox-api/services"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http"
+	name="FlightsUpdateApiService" targetNamespace="http://mtx-sandbox-api/services">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://mtx-sandbox-api/services" elementFormDefault="unqualified"
+			targetNamespace="http://mtx-sandbox-api/services" version="1.0">
+			<xs:element name="sendMopp" type="tns:sendMopp" />
+			<xs:element name="sendMoppResponse" type="tns:sendMoppResponse" />
+			<xs:element name="update" type="tns:update" />
+			<xs:element name="updateResponse" type="tns:updateResponse" />
+			<xs:complexType name="update">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="request" type="tns:flightUpdateRequest" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="flightUpdateRequest">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="aircraftIdentifier"
+						type="xs:string" />
+					<xs:element minOccurs="0" name="arrivalAirport" type="xs:string" />
+					<xs:element minOccurs="0" name="arrivalGate" type="xs:string" />
+					<xs:element minOccurs="0" name="departureAirport" type="xs:string" />
+					<xs:element minOccurs="0" name="departureGate" type="xs:string" />
+					<xs:element minOccurs="0" name="endDate" type="xs:dateTime" />
+					<xs:element minOccurs="0" name="externalKey" type="xs:string" />
+					<xs:element minOccurs="0" name="startDate" type="xs:dateTime" />
+					<xs:element minOccurs="0" name="status" type="tns:flightUpdateStatus" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="updateResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="sendMopp">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="request" type="tns:moppRequest" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="moppRequest">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="aircraftIdentifier"
+						type="xs:string" />
+					<xs:element minOccurs="0" name="airport" type="xs:string" />
+					<xs:element minOccurs="0" name="date" type="xs:dateTime" />
+					<xs:element minOccurs="0" name="gate" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="sendMoppResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:simpleType name="flightUpdateStatus">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="SCHEDULED" />
+					<xs:enumeration value="ON_GOING" />
+					<xs:enumeration value="COMPLETED" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="sendMoppResponse">
+		<wsdl:part element="tns:sendMoppResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="update">
+		<wsdl:part element="tns:update" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateResponse">
+		<wsdl:part element="tns:updateResponse" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="sendMopp">
+		<wsdl:part element="tns:sendMopp" name="parameters"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="FlightsUpdateApi">
+		<wsdl:operation name="update">
+			<wsdl:input message="tns:update" name="update"></wsdl:input>
+			<wsdl:output message="tns:updateResponse" name="updateResponse"></wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sendMopp">
+			<wsdl:input message="tns:sendMopp" name="sendMopp"></wsdl:input>
+			<wsdl:output message="tns:sendMoppResponse" name="sendMoppResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="FlightsUpdateApiServiceSoapBinding"
+		type="tns:FlightsUpdateApi">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="update">
+			<soap:operation soapAction="update" style="document" />
+			<wsdl:input name="update">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="updateResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sendMopp">
+			<soap:operation soapAction="sendMopp" style="document" />
+			<wsdl:input name="sendMopp">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="sendMoppResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="FlightsUpdateApiService">
+		<wsdl:port binding="tns:FlightsUpdateApiServiceSoapBinding"
+			name="FlightsUpdateApiPort">
+			<soap:address
+				location="http://localhost:9494/web-sandbox-api/endpoint/flights-update-api-1.0.0" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
