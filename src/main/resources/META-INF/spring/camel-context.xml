@@ -5,10 +5,12 @@
 	xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
-       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 	<import resource="mq-conf.xml" />
+	<context:component-scan base-package="co.com.core.evaluator" />
 
 	<!-- INI : SOAP FOR BPEL -->
 	<cxf:cxfEndpoint id="cxfAlert" address="/ws/alert-on-air"
@@ -30,11 +32,12 @@
 		endpointName="tns:MaintenancePlannerEndpoint" serviceName="tns:MaintenancePlannerEndpointService"
 		wsdlURL="deploy/wsdl/maintenance-planner.wsdl" serviceClass="co.com.ws.maintenance_planner.MaintenancePlannerEndpoint"
 		xmlns:tns="http://maintenance-planner.ws.com.co" />
-		
+
 	<cxf:cxfEndpoint id="cxfMopp" address="/ws/maintenance-planner-mopp"
 		endpointName="tns:MaintenancePlannerMoppEndpoint" serviceName="tns:MaintenancePlannerMoppEndpointService"
-		wsdlURL="deploy/wsdl/maintenance-planner-mopp.wsdl" serviceClass="co.com.ws.maintenance_planner_mopp.MaintenancePlannerMoppEndpoint"
-		xmlns:tns="http://maintenance-planner-mopp.ws.com.co" />		
+		wsdlURL="deploy/wsdl/maintenance-planner-mopp.wsdl"
+		serviceClass="co.com.ws.maintenance_planner_mopp.MaintenancePlannerMoppEndpoint"
+		xmlns:tns="http://maintenance-planner-mopp.ws.com.co" />
 
 	<bean id="processAlert" class="co.com.ws.processor.AlertOnAirProcessor" />
 	<bean id="processShopping" class="co.com.ws.processor.OnAirShoppingProcessor" />
@@ -78,16 +81,15 @@
 			<camel:log
 				message="[JBossFuse - sendMaintenance] ---------------> Send XMl message update (SOAP)" />
 		</camel:route>
-		
+
 		<camel:route id="sendMopp">
 			<camel:from uri="cxf:bean:cxfMopp" />
 			<process ref="processMopp" />
 			<camel:log
 				message="[JBossFuse - sendMopp] ---------------> Send XMl message mopp (SOAP)" />
-		</camel:route>		
+		</camel:route>
 	</camelContext>
 	<!-- FIN : SOAP FOR BPEL -->
-
 
 
 
@@ -110,7 +112,7 @@
 		<camel:route id="aircraft-line-integration">
 			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
 			<!--camel:from uri="rabbitmq://localhost:5672/flights-exchange?autoDelete=false&amp;queue=flights-bridge-queue&amp;routingKey=flights-key" 
-				/-->
+				/ -->
 			<camel:split>
 				<camel:xpath>/tns:aircratline-message</camel:xpath>
 				<convertBodyTo
@@ -123,8 +125,22 @@
 		<camel:route id="leg-integration">
 			<camel:from uri="seda:leg-integration" />
 			<camel:log message="[JBossFuse - Bpel] ---------------> Active JBossFuse" />
-			<camel:process ref="processBpel" />
-			<camel:log message="[JBossFuse - Bpel] ---------------> Send XML message to Bpel" />
+			<camel:choice>
+				<camel:when>
+					<camel:simple>${bean:tailNumberEvaluator?method=validate}</camel:simple>
+					<camel:process ref="processBpel" />
+					<camel:log
+						message="[JBossFuse - Bpel] ---------------> Send XML message to Bpel" />
+				</camel:when>
+			</camel:choice>
+			<camel:choice>
+				<camel:when>
+					<camel:simple>${bean:tailNumberEvaluator?method=validate} == false</camel:simple>
+					<camel:log
+						message="[JBossFuse - Bpel] ---------------> Message XML discard by tail number" />
+				</camel:when>
+			</camel:choice>
+
 		</camel:route>
 	</camel:camelContext>
 </beans>

@@ -64,6 +64,7 @@
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/mtx_sandbox_api/services/FlightUpdateStatus.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/alert_on_air/ObjectFactory.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/maintenance_planner_mopp/MoppResponse.java
+/home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/core/evaluator/TailNumberEvaluator.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/canonical/flights/DomainEventsInfo.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/processor/AlertOnAirProcessor.java
 /home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/java/co/com/ws/on_air_shopping/ObjectFactory.java

@@ -1,6 +1,7 @@
 bpel/org/example/salida/package-info.class
 bpel/aerolineas_latinoamericanas/contract/messages/AircratlineMessage.class
 bpel/aerolineas_latinoamericanas/contract/messages/DomainEventsInfo$AlertOnAir.class
+co/com/core/evaluator/TailNumberEvaluator.class
 mtx_sandbox_api/services/FlightsUpdateApiService.class
 co/com/canonical/flights/DomainEventsInfo.class
 co/com/ws/maintenance_planner_mopp/package-info.class
