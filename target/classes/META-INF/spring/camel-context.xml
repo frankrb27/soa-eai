@@ -129,7 +129,6 @@
 				<camel:when>
 					<camel:simple>${bean:tailNumberEvaluator?method=validate}</camel:simple>
 					<camel:process ref="processBpel" />
-					<camel:log message="${body}" />
 					<camel:log
 						message="[JBossFuse - Bpel] ---------------> Send XML message to Bpel" />
 				</camel:when>
