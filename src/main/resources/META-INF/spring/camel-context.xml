@@ -82,22 +82,26 @@
 
 
 
-
+	<bean id="processBpel" class="co.com.ws.processor.BpelProcessor" />
 
 	<camel:camelContext xmlns="http://camel.apache.org/schema/spring"
 		xmlns:tns="http://aerolineas-latinoamericanas/contract/messages">
 
 		<camel:dataFormats>
-			<camel:jaxb id="jaxb" contextPath="co.com.canonical.flights"
-				fragment="true" partClass="co.com.canonical.flights.AircratlineMessage" />
+			<camel:jaxb id="jaxb"
+				contextPath="bpel.aerolineas_latinoamericanas.contract.messages"
+				fragment="true"
+				partClass="bpel.aerolineas_latinoamericanas.contract.messages.AircratlineMessage" />
 		</camel:dataFormats>
 
 		<camel:route id="aircraft-line-integration">
-			<!--camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" /-->
-			<camel:from uri="rabbitmq://localhost:5672/flights-exchange?autoDelete=false&amp;queue=flights-bridge-queue&amp;routingKey=flights-key" /> 
+			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
+			<!--camel:from uri="rabbitmq://localhost:5672/flights-exchange?autoDelete=false&amp;queue=flights-bridge-queue&amp;routingKey=flights-key" 
+				/ -->
 			<camel:split>
 				<camel:xpath>/tns:aircratline-message</camel:xpath>
-				<convertBodyTo type="co.com.canonical.flights.AircratlineMessage" />
+				<convertBodyTo
+					type="bpel.aerolineas_latinoamericanas.contract.messages.AircratlineMessage" />
 				<camel:unmarshal ref="jaxb" />
 				<camel:to uri="seda:leg-integration" />
 			</camel:split>
@@ -105,22 +109,9 @@
 
 		<camel:route id="leg-integration">
 			<camel:from uri="seda:leg-integration" />
-			<camel:log message="[JBossFuse] ---------------> Active JBossFuse" />
-			<camel:multicast>
-				<camel:choice>
-					<camel:when>
-						<!-- BLIZARD -->
-						<camel:xpath>count(//tns:flight-leg/tns:domain-events-info/tns:on-air-shopping)>0
-						</camel:xpath>
-						<camel:process ref="shoppingTransform" />
-						<camel:log message="[JBossFuse] ---------------> On Air Shopping" />
-						<camel:to
-							uri="file:/home/frank/target-system/blizard?fileName=output-${date:now:yyyyMMdd hhmmss}.txt" />
-						<camel:log
-							message="[JBossFuse] ---------------> Send file to BLIZARD SYSTEM" />
-					</camel:when>
-				</camel:choice>
-			</camel:multicast>
+			<camel:log message="[JBossFuse - Bpel] ---------------> Active JBossFuse" />
+			<camel:process ref="processBpel" />
+			<camel:log message="[JBossFuse - Bpel] ---------------> Send XML message to Bpel" />
 		</camel:route>
 	</camel:camelContext>
 </beans>

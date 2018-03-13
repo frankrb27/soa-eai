@@ -30,7 +30,7 @@ public class FlightsUpdateApiService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/frank/GDX/Personal/jav/impl/taller-soa-eai/src/main/resources/wsdl/ext/flights-update.wsdl");
+            url = new URL("file:/home/frank/personal/javeriana/Semestre_II/Implementacion/workspace/taller-soa-eai/src/main/resources/wsdl/ext/flights-update.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
