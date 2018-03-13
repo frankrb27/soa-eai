@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "AlertOnAirEndpointService", targetNamespace = "http://alert-on-air.ws.com.co", wsdlLocation = "file:/home/frank/Escritorio/wsdl/alert-on-air.wsdl")
+@WebServiceClient(name = "AlertOnAirEndpointService", targetNamespace = "http://alert-on-air.ws.com.co", wsdlLocation = "file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/alert-on-air.wsdl")
 public class AlertOnAirEndpointService
     extends Service
 {
@@ -30,7 +30,7 @@ public class AlertOnAirEndpointService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/frank/Escritorio/wsdl/alert-on-air.wsdl");
+            url = new URL("file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/alert-on-air.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

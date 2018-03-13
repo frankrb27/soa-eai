@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "CancelFlightEndpointService", targetNamespace = "http://cancel-flight.ws.com.co", wsdlLocation = "file:/home/frank/Escritorio/wsdl/cancel-flight.wsdl")
+@WebServiceClient(name = "CancelFlightEndpointService", targetNamespace = "http://cancel-flight.ws.com.co", wsdlLocation = "file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/cancel-flight.wsdl")
 public class CancelFlightEndpointService
     extends Service
 {
@@ -30,7 +30,7 @@ public class CancelFlightEndpointService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/frank/Escritorio/wsdl/cancel-flight.wsdl");
+            url = new URL("file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/cancel-flight.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

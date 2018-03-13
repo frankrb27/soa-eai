@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://maintenance-planner-mopp.ws.com.co" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://maintenance-planner-mopp.ws.com.co">
+
+	<wsdl:types>
+		<xs:schema targetNamespace="http://maintenance-planner-mopp.ws.com.co">
+			<xs:element name="moppRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="aircrat-tail-number" />
+						<xs:element type="xs:string" name="airport" />
+						<xs:element type="xs:date" name="date" />
+						<xs:element type="xs:string" name="gate" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="moppResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element type="xs:string" name="code" />
+						<xs:element type="xs:string" name="description" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="moppRequest">
+		<wsdl:part name="in" element="tns:moppRequest" />
+	</wsdl:message>
+	<wsdl:message name="moppResponse">
+		<wsdl:part name="out" element="tns:moppResponse" />
+	</wsdl:message>
+
+	<wsdl:portType name="MaintenancePlannerMoppEndpoint">
+		<wsdl:operation name="sendMopp">
+			<wsdl:input message="tns:moppRequest" />
+			<wsdl:output message="tns:moppResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="MaintenancePlannerMopp" type="tns:MaintenancePlannerMoppEndpoint">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="sendMopp">
+			<soap:operation soapAction="http://maintenance-planner-mopp.ws.com.co"
+				style="document" />
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="MaintenancePlannerMoppEndpointService">
+		<wsdl:port name="MaintenancePlannerMoppEndpoint" binding="tns:MaintenancePlannerMopp">
+			<soap:address location="http://localhost:8181/cxf/ws/maintenance-planner-mopp" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

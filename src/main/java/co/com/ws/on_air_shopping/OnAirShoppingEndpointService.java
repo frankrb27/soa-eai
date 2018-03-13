@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "OnAirShoppingEndpointService", targetNamespace = "http://on-air-shopping.ws.com.co", wsdlLocation = "file:/home/frank/Escritorio/wsdl/on-air-shopping.wsdl")
+@WebServiceClient(name = "OnAirShoppingEndpointService", targetNamespace = "http://on-air-shopping.ws.com.co", wsdlLocation = "file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/on-air-shopping.wsdl")
 public class OnAirShoppingEndpointService
     extends Service
 {
@@ -30,7 +30,7 @@ public class OnAirShoppingEndpointService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/frank/Escritorio/wsdl/on-air-shopping.wsdl");
+            url = new URL("file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/on-air-shopping.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

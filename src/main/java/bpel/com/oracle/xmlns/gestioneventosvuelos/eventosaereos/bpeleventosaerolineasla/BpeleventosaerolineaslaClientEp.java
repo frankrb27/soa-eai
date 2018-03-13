@@ -30,7 +30,7 @@ public class BpeleventosaerolineaslaClientEp
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/frank/personal/javeriana/Semestre_II/Implementacion/taller%20soa-eai/GestionEventosVuelos/EventosAereos/SOA/WSDLs/bpeleventosaerolineasla_client_ep.wsdl");
+            url = new URL("file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/bpel/SOA/WSDLs/bpeleventosaerolineasla_client_ep.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

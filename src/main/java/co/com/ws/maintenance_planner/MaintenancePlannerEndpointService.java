@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "MaintenancePlannerEndpointService", targetNamespace = "http://maintenance-planner.ws.com.co", wsdlLocation = "file:/home/frank/Escritorio/wsdl/maintenance-planner.wsdl")
+@WebServiceClient(name = "MaintenancePlannerEndpointService", targetNamespace = "http://maintenance-planner.ws.com.co")
 public class MaintenancePlannerEndpointService
     extends Service
 {
@@ -30,7 +30,7 @@ public class MaintenancePlannerEndpointService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/home/frank/Escritorio/wsdl/maintenance-planner.wsdl");
+            url = new URL("file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/maintenance-planner.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
