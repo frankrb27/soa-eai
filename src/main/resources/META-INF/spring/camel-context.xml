@@ -95,9 +95,9 @@
 		</camel:dataFormats>
 
 		<camel:route id="aircraft-line-integration">
-			<camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" />
-			<!--camel:from uri="rabbitmq://localhost:5672/flights-exchange?autoDelete=false&amp;queue=flights-bridge-queue&amp;routingKey=flights-key" 
-				/ -->
+			<!--camel:from uri="activemq:queue:AIRCRAFT.LINE.BRIDGE.TOPIC" /-->
+			<camel:from uri="rabbitmq://localhost:5672/flights-exchange?autoDelete=false&amp;queue=flights-bridge-queue&amp;routingKey=flights-key" 
+				/>
 			<camel:split>
 				<camel:xpath>/tns:aircratline-message</camel:xpath>
 				<convertBodyTo
