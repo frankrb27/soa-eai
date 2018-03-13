@@ -16,11 +16,14 @@ public class BpelProcessor implements Processor {
 		try {
 			BpeleventosaerolineaslaClientEp service = new BpeleventosaerolineaslaClientEp();
 			BPELEventosAerolineasLA port = service.getBPELEventosAerolineasLAPt();
-			List<FlightLeg> listTmp = req.getFlightLeg();
-			for(FlightLeg leg : listTmp) {
-				req.getFlightLeg().clear();
-				req.getFlightLeg().add(leg);
-				port.process(req);
+			for(FlightLeg leg : req.getFlightLeg()) {
+				bpel.aerolineas_latinoamericanas.contract.messages.AircratlineMessage request = new bpel.aerolineas_latinoamericanas.contract.messages.AircratlineMessage();
+				request.setArrivalAirport(req.getArrivalAirport());
+				request.setDepartureAirport(req.getDepartureAirport());
+				request.setTailNumber(req.getTailNumber());
+				request.getFlightLeg().clear();
+				request.getFlightLeg().add(leg);
+				port.process(request);
 			}
 			
 		}catch(Exception e) {
