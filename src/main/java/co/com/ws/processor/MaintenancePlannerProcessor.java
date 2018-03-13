@@ -31,7 +31,7 @@ public class MaintenancePlannerProcessor implements Processor {
 			request.setEndDate(requestMain.getEndDate());
 			request.setExternalKey(requestMain.getFlightExternalKey());
 			request.setStartDate(requestMain.getStartDate());
-			request.setStatus(FlightUpdateStatus.valueOf(requestMain.getStatus().equals("IN_PROGRESS")?"ON_GOING":requestMain.getStatus()));
+			request.setStatus(FlightUpdateStatus.ON_GOING);
 			
 			FlightsUpdateApiService service = new FlightsUpdateApiService();
 			FlightsUpdateApi port = service.getFlightsUpdateApiPort();
