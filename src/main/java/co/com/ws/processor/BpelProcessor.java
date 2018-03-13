@@ -16,6 +16,7 @@ public class BpelProcessor implements Processor {
 			port.process(req);
 		}catch(Exception e) {
 			e.printStackTrace();
+			throw new Exception(e);
 		}
 	}
 
