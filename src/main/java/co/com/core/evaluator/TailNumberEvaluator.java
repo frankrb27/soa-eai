@@ -21,8 +21,6 @@ public class TailNumberEvaluator {
 		listNumber.add("MK00014");
 		listNumber.add("MK00015");
 		listNumber.add("MK00016");
-		listNumber.add("MK00017");
-		listNumber.add("MK00018");
 		
 		return listNumber;
 	}
