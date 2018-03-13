@@ -31,7 +31,7 @@ public class MaintenancePlannerProcessor implements Processor {
 			request.setEndDate(requestMain.getEndDate());
 			request.setExternalKey(requestMain.getFlightExternalKey());
 			request.setStartDate(requestMain.getStartDate());
-			request.setStatus(FlightUpdateStatus.ON_GOING);
+			request.setStatus(requestMain.getStatus().equals("IN_PROGRESS")?FlightUpdateStatus.ON_GOING:FlightUpdateStatus.fromValue(requestMain.getStatus()));
 			
 			FlightsUpdateApiService service = new FlightsUpdateApiService();
 			FlightsUpdateApi port = service.getFlightsUpdateApiPort();
@@ -45,6 +45,7 @@ public class MaintenancePlannerProcessor implements Processor {
 			response.setCode("1");
 			response.setDescription("Failed: "+e.getMessage());
 			exchange.getOut().setBody(response);
+			throw new Exception(e);
 		}
 	}
 
