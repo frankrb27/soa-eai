@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "bpeleventosaerolineasla_client_ep", targetNamespace = "http://xmlns.oracle.com/GestionEventosVuelos/EventosAereos/BPELEventosAerolineasLA", wsdlLocation = "file:/home/frank/personal/javeriana/Semestre_II/Implementacion/taller%20soa-eai/GestionEventosVuelos/EventosAereos/SOA/WSDLs/bpeleventosaerolineasla_client_ep.wsdl")
+@WebServiceClient(name = "bpeleventosaerolineasla_client_ep", targetNamespace = "http://xmlns.oracle.com/GestionEventosVuelos/EventosAereos/BPELEventosAerolineasLA", wsdlLocation = "file:/opt/soa/esb/jboss-fuse-6.3.0.redhat-187/deploy/wsdl/bpel/SOA/WSDLs/bpeleventosaerolineasla_client_ep.wsdl")
 public class BpeleventosaerolineaslaClientEp
     extends Service
 {
