@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions
+     name="BPELEventosAerolineasLA"
+     targetNamespace="http://xmlns.oracle.com/GestionEventosVuelos/EventosAereos/BPELEventosAerolineasLA"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/GestionEventosVuelos/EventosAereos/BPELEventosAerolineasLA"
+     xmlns:ns1="http://aerolineas-latinoamericanas/contract/messages"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns2="http://www.example.org/salida"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    >
+
+    <plnk:partnerLinkType name="BPELEventosAerolineasLA">
+        <plnk:role name="BPELEventosAerolineasLAProvider" portType="client:BPELEventosAerolineasLA"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/GestionEventosVuelos/EventosAereos/BPELEventosAerolineasLA"
+             xmlns:ns1="http://aerolineas-latinoamericanas/contract/messages" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns2="http://www.example.org/salida">
+            <import namespace="http://aerolineas-latinoamericanas/contract/messages" schemaLocation="../Schemas/swift/swift-messages-model.xsd"/>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/GestionEventosVuelos/EventosAereos/BPELEventosAerolineasLA"
+             xmlns:ns1="http://aerolineas-latinoamericanas/contract/messages" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns2="http://www.example.org/salida">
+            <xsd:import namespace="http://www.example.org/salida" schemaLocation="../Schemas/salida.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:client="http://xmlns.oracle.com/GestionEventosVuelos/EventosAereos/BPELEventosAerolineasLA"
+             xmlns:ns1="http://aerolineas-latinoamericanas/contract/messages" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:ns2="http://www.example.org/salida">
+            <xsd:import namespace="http://www.example.org/salida" schemaLocation="../Schemas/Eventos_business_rules.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="BPELEventosAerolineasLARequestMessage">
+        <wsdl:part name="payload" element="ns1:aircratline-message"/>
+    </wsdl:message>
+    <wsdl:portType name="BPELEventosAerolineasLA">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:BPELEventosAerolineasLARequestMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BPELEventosAerolineasLABinding" type="client:BPELEventosAerolineasLA">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="bpeleventosaerolineasla_client_ep">
+        <wsdl:port name="BPELEventosAerolineasLA_pt" binding="client:BPELEventosAerolineasLABinding">
+            <soap:address location="http://localhost:7001/soa-infra/services/default/EventosAereos/bpeleventosaerolineasla_client_ep"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

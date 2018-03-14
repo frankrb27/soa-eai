@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+    
+     targetNamespace="http://cancel-flight.ws.com.co"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:tns="http://cancel-flight.ws.com.co"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="CancelFlight">
+        <plnk:role name="CancelFlightEndpoint" portType="tns:CancelFlightEndpoint"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://cancel-flight.ws.com.co" location="cancel-flight.wsdl"/>
+</wsdl:definitions>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org"
+            targetNamespace="http://www.example.org/salida"
+            xmlns:tns="http://www.example.org/salida"
+            elementFormDefault="qualified">
+  
+  <xsd:element name="nodoSalida" type="tns:salida" />
+
+  <xsd:complexType name="salida">
+      <xsd:sequence>
+        <xsd:element name="estado" type="xsd:int"/>
+        <xsd:element name="mensajeSalida" type="xsd:string"/>
+      </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

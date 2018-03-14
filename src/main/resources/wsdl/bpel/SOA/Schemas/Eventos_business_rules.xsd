@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.example.org"
+            targetNamespace="http://www.example.org/salida"
+            xmlns:tns="http://www.example.org/salida"
+            elementFormDefault="qualified">
+  <xsd:element name="nodoEntradaBR" type="tns:entradaBR" />
+  <xsd:element name="nodoSalidaBR" type="tns:salidaBR" />
+
+  <xsd:complexType name="entradaBR">
+      <xsd:sequence>
+        <xsd:element name="tailNumber" type="xsd:string"/>
+        <xsd:element name="OnAirShopping" type="xsd:boolean"/>
+        <xsd:element name="AlertsOnAir" type="xsd:boolean"/>
+        <xsd:element name="CancelFlight" type="xsd:boolean"/>
+        <xsd:element name="ActualIngate" type="xsd:boolean"/>
+        <xsd:element name="ActualOutgate" type="xsd:boolean"/>
+        <xsd:element name="EstimatedIngate" type="xsd:boolean"/>
+        <xsd:element name="EstimatedOutgate" type="xsd:boolean"/>
+        <xsd:element name="Status" type="xsd:string"/>
+        <xsd:element name="Combustible" type="xsd:int"/>
+      </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="salidaBR">
+      <xsd:sequence>
+        <xsd:element name="estado" type="xsd:int"/>
+        <xsd:element name="mensajeSalida" type="xsd:string"/>
+      </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
